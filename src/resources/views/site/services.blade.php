@@ -6,7 +6,7 @@
         <div class="hero-section-container">
             <div class="row align-items-center ">
                 <div class="col-lg-6 mb-4 mb-lg-0 d-flex align-items-center justify-content-center">
-                    <h1 class="hero-title">Serviços</h1>
+                    <h1 class="hero-title">Serviços 1</h1>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6 hero-section-container-image">
                 <div class="hand-sobre" style="background-image: url('assets/img/Hand1.jpg');
