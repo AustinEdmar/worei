@@ -44,6 +44,8 @@ Três containers adicionais são incluídos para lidar com os comandos do Compos
 - `docker-compose run --rm composer update`
 - `docker-compose run --rm npm run dev`
 - `docker-compose run --rm artisan migrate`
+- `docker-compose run --rm artisan key:generate`
+
 
 
 ## Problemas de Permissões

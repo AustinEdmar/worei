@@ -10,31 +10,31 @@ use App\Mail\ContactNotificationMail;
 
 class ContactsController extends Controller
 {
-      /**
+    /**
      * 📩 RECEBER DO FORMULÁRIO
      */
-   
-      public function store(Request $request)
-{
-    $data = $request->validate([
-        'name'    => 'required|string|max:255',
-        'email'   => 'required|email',
-        'subject' => 'required|string|max:255',
-        'message' => 'required|string',
-    ]);
 
-    $data['ip_address'] = $request->ip();
-    $data['user_agent'] = $request->userAgent();
+    public function sendEmail(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
 
-    // 👇 model criado
-    $contact = Contacts::create($data);
+        $data['ip_address'] = $request->ip();
+        $data['user_agent'] = $request->userAgent();
 
-    // 👇 passa o MODEL, não array
-    Mail::to(config('mail.from.address'))
-        ->send(new ContactNotificationMail($contact));
+        // 👇 model criado
+        $contact = Contacts::create($data);
 
-    return back()->with('success', 'Mensagem enviada com sucesso!');
-}
+        // 👇 passa o MODEL, não array
+        Mail::to(config('mail.from.address'))
+            ->send(new ContactNotificationMail($contact));
+
+        return back()->with('success', 'Mensagem enviada com sucesso!');
+    }
 
 
     /**
