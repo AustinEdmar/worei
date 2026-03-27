@@ -33,10 +33,6 @@ class blogController extends Controller
 
 
 
-
-
-
-
     public function store(Request $request)
     {
         // Dados vindos diretamente do request (sem validação)
@@ -90,56 +86,56 @@ class blogController extends Controller
 
 
 
-   public function update(Request $request, Post $post)
-{
-    // Atualiza campos simples
-    $data = $request->only([
-        'title',
-        'content',
-        'category_id',
-        'status'
-    ]);
+    public function update(Request $request, Post $post)
+    {
+        // Atualiza campos simples
+        $data = $request->only([
+            'title',
+            'content',
+            'category_id',
+            'status'
+        ]);
 
-    // Atualiza imagem de destaque
-    if ($request->hasFile('featured_image')) {
-        if ($post->featured_image) {
-            Storage::disk('public')->delete($post->featured_image);
+        // Atualiza imagem de destaque
+        if ($request->hasFile('featured_image')) {
+            if ($post->featured_image) {
+                Storage::disk('public')->delete($post->featured_image);
+            }
+
+            $data['featured_image'] = $request->file('featured_image')
+                ->store('posts', 'public');
         }
 
-        $data['featured_image'] = $request->file('featured_image')
-            ->store('posts', 'public');
+        // Atualiza dados principais do post
+        $post->update($data);
+
+        /**
+         * 🔥 Se enviar novas imagens:
+         * 1. Remove todas as imagens antigas (arquivo + banco)
+         * 2. Salva as novas imagens
+         */
+        if ($request->hasFile('images')) {
+
+            // Remove imagens antigas
+            foreach ($post->images as $image) {
+                Storage::disk('public')->delete($image->image_path);
+                $image->delete();
+            }
+
+            // Salva novas imagens
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('posts', 'public');
+
+                $post->images()->create([
+                    'image_path' => $path
+                ]);
+            }
+        }
+
+        return redirect()
+            ->route('dashboard.blog.index')
+            ->with('success', 'Post atualizado com sucesso!');
     }
-
-    // Atualiza dados principais do post
-    $post->update($data);
-
-    /**
-     * 🔥 Se enviar novas imagens:
-     * 1. Remove todas as imagens antigas (arquivo + banco)
-     * 2. Salva as novas imagens
-     */
-    if ($request->hasFile('images')) {
-
-        // Remove imagens antigas
-        foreach ($post->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
-            $image->delete();
-        }
-
-        // Salva novas imagens
-        foreach ($request->file('images') as $file) {
-            $path = $file->store('posts', 'public');
-
-            $post->images()->create([
-                'image_path' => $path
-            ]);
-        }
-    }
-
-    return redirect()
-        ->route('dashboard.blog.index')
-        ->with('success', 'Post atualizado com sucesso!');
-}
 
 
 

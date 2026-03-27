@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TeamMember;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TeamMemberController extends Controller
 {
@@ -11,11 +12,14 @@ class TeamMemberController extends Controller
     public function index()
     {
 
-        $members = TeamMember::orderBy('order')->paginate(10);
+        $members = User::where('role', 'staff')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('dashboard.team.index', compact('members'));
 
     }
+
 
     public function store(Request $request)
     {
@@ -23,53 +27,49 @@ class TeamMemberController extends Controller
         $data = $request->validate([
 
             'name' => 'required',
-            'role' => 'required',
-            'bio' => 'nullable',
-            'photo' => 'nullable|image',
+            'cargo' => 'required',
             'email' => 'nullable|email',
-            'linkedin' => 'nullable',
-            'twitter' => 'nullable',
-            'order' => 'nullable|integer',
-            'is_active' => 'nullable'
+            'photo' => 'nullable|image',
+            'password' => 'nullable|min:6'
 
         ]);
 
         if ($request->hasFile('photo')) {
 
-            $path = $request->file('photo')->store('team', 'public');
+            $path = $request->file('photo')->store('users', 'public');
 
             $data['photo'] = $path;
 
         }
 
+        $data['password'] = Hash::make($request->password ?? '12345678');
+
+        $data['role'] = 'staff';
+
         $data['is_active'] = $request->has('is_active');
 
-        TeamMember::create($data);
+        User::create($data);
 
         return back()->with('success', 'Membro criado');
 
     }
 
-    public function update(Request $request, TeamMember $team)
+
+    public function update(Request $request, User $team)
     {
 
         $data = $request->validate([
 
             'name' => 'required',
-            'role' => 'required',
-            'bio' => 'nullable',
-            'photo' => 'nullable|image',
+            'cargo' => 'required',
             'email' => 'nullable|email',
-            'linkedin' => 'nullable',
-            'twitter' => 'nullable',
-            'order' => 'nullable|integer',
-            'is_active' => 'nullable'
+            'photo' => 'nullable|image'
 
         ]);
 
         if ($request->hasFile('photo')) {
 
-            $path = $request->file('photo')->store('team', 'public');
+            $path = $request->file('photo')->store('users', 'public');
 
             $data['photo'] = $path;
 
@@ -83,7 +83,8 @@ class TeamMemberController extends Controller
 
     }
 
-    public function destroy(TeamMember $team)
+
+    public function destroy(User $team)
     {
 
         $team->delete();
@@ -91,6 +92,5 @@ class TeamMemberController extends Controller
         return back()->with('success', 'Removido');
 
     }
-
 
 }

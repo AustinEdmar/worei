@@ -15,20 +15,20 @@
                     <span>Dashboard</span>
                 </a>
             </div>
+
             <div class="nav-item">
                 <a href="{{ route('dashboard.about.index') }}" class="text-decoration-none text-gray">
-                    <span class="nav-icon">📈</span>
+                    <span class="nav-icon">ℹ️</span>
                     <span>Sobre</span>
                 </a>
             </div>
 
             <div class="nav-item">
                 <a href="{{ route('dashboard.blog.index') }}" class="text-decoration-none text-gray">
-                    <span class="nav-icon">📈</span>
+                    <span class="nav-icon">📝</span>
                     <span>Blog</span>
                 </a>
             </div>
-
 
             <div class="nav-item">
                 <a href="{{ route('dashboard.team.index') }}" class="text-decoration-none text-gray">
@@ -36,12 +36,14 @@
                     <span>Equipe</span>
                 </a>
             </div>
+
             <div class="nav-item">
                 <a href="{{ route('dashboard.partners.index') }}" class="text-decoration-none text-gray">
-                    <span class="nav-icon">👥</span>
+                    <span class="nav-icon">🤝</span>
                     <span>Parceiros</span>
                 </a>
             </div>
+
             <div class="nav-item">
                 <a href="{{ route('dashboard.contactinfo.index') }}" class="text-decoration-none text-gray">
                     <span class="nav-icon">📞</span>
@@ -63,19 +65,26 @@
                 </a>
             </div>
 
-
         </div>
 
         <div class="nav-section mt-4">
             <div class="nav-title">Gerenciar</div>
-            <div class="nav-item"><span class="nav-icon">👥</span><span>Usuários</span></div>
-
+            <div class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Usuários</span>
+            </div>
         </div>
 
         <div class="nav-section mt-4">
             <div class="nav-title">Outros</div>
-            <div class="nav-item"><span class="nav-icon">⚙️</span><span>Configurações</span></div>
-            <div class="nav-item"><span class="nav-icon">❓</span><span>Ajuda</span></div>
+            <div class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Configurações</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">🆘</span>
+                <span>Ajuda</span>
+            </div>
         </div>
     </nav>
 

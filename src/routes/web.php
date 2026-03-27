@@ -38,10 +38,10 @@ Route::prefix('dashboard')
             Route::get('', [App\Http\Controllers\blogController::class, 'index'])->name('index');
             Route::get('/create', [App\Http\Controllers\blogController::class, 'create'])->name('create');
             Route::post('/store', [App\Http\Controllers\blogController::class, 'store'])->name('store');
-            Route::get('/edit/{id}', [App\Http\Controllers\BlogController::class, 'edit'])->name('edit');
-            Route::get('/show/{post}', [App\Http\Controllers\BlogController::class, 'show'])->name('show');
-            Route::put('/update/{post}', [App\Http\Controllers\BlogController::class, 'update'])->name('update');
-            Route::delete('/destroy/{id}', [App\Http\Controllers\BlogController::class, 'destroy'])->name('destroy');
+            Route::get('/edit/{id}', [App\Http\Controllers\blogController::class, 'edit'])->name('edit');
+            Route::get('/show/{post}', [App\Http\Controllers\blogController::class, 'show'])->name('show');
+            Route::put('/update/{post}', [App\Http\Controllers\blogController::class, 'update'])->name('update');
+            Route::delete('/destroy/{id}', [App\Http\Controllers\blogController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('about')
